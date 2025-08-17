@@ -139,7 +139,8 @@ const Threads: React.FC<ThreadsProps> = ({
     if (!containerRef.current) return;
     const container = containerRef.current;
 
-    const renderer = new Renderer({ alpha: true });
+    const IS_DEV = import.meta.env.DEV;
+    const renderer = new Renderer({ alpha: true, dpr: Math.min(window.devicePixelRatio, IS_DEV ? 1 : 2) });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
@@ -180,15 +181,34 @@ const Threads: React.FC<ThreadsProps> = ({
 
     let currentMouse = [0.5, 0.5];
     let targetMouse = [0.5, 0.5];
+    let pendingMouse: [number, number] | null = null;
+    let mouseRaf: number | null = null;
 
     function handleMouseMove(e: MouseEvent) {
       const rect = container.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
-      targetMouse = [x, y];
+      // throttle mouse updates to rAF to avoid flooding with mouse events
+      pendingMouse = [x, y];
+      if (!mouseRaf) {
+        mouseRaf = requestAnimationFrame(() => {
+          if (pendingMouse) {
+            targetMouse = pendingMouse;
+            pendingMouse = null;
+          }
+          mouseRaf = null;
+        });
+      }
     }
     function handleMouseLeave() {
-      targetMouse = [0.5, 0.5];
+      pendingMouse = [0.5, 0.5];
+      if (!mouseRaf) {
+        mouseRaf = requestAnimationFrame(() => {
+          targetMouse = [0.5, 0.5];
+          pendingMouse = null;
+          mouseRaf = null;
+        });
+      }
     }
     if (enableMouseInteraction) {
       container.addEventListener("mousemove", handleMouseMove);
@@ -221,6 +241,7 @@ const Threads: React.FC<ThreadsProps> = ({
       if (enableMouseInteraction) {
         container.removeEventListener("mousemove", handleMouseMove);
         container.removeEventListener("mouseleave", handleMouseLeave);
+        if (mouseRaf) cancelAnimationFrame(mouseRaf);
       }
       if (container.contains(gl.canvas)) container.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();

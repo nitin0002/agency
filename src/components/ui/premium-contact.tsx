@@ -290,9 +290,9 @@ export function PremiumContact() {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="flex items-center justify-between mb-12 lg:px-64">
           {/* Contact Form */}
-          <motion.div 
+          {/* <motion.div 
             className="space-y-8"
             variants={fadeInUp}
           >
@@ -455,11 +455,11 @@ export function PremiumContact() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </motion.div> */}
 
           {/* Contact Methods */}
           <motion.div 
-            className="space-y-8"
+            className="space-y-8 items-center justify-center flex flex-col"
             variants={fadeInUp}
           >
             <div>
@@ -469,7 +469,7 @@ export function PremiumContact() {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 lg:min-w-[500px]">
               {contactMethods.map((method, index) => (
                 <motion.a
                   key={index}

@@ -101,11 +101,15 @@ export default function DarkVeil({
     const canvas = ref.current as HTMLCanvasElement;
     const parent = canvas.parentElement as HTMLElement;
 
+    const IS_DEV = import.meta.env.DEV;
+    const effectiveDpr = Math.min(window.devicePixelRatio, IS_DEV ? 1 : 2);
+    const effectiveResolutionScale = IS_DEV ? Math.min(resolutionScale, 0.6) : resolutionScale;
+
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
+      dpr: effectiveDpr,
       canvas,
     });
-
+    
     const gl = renderer.gl;
     const geometry = new Triangle(gl);
 
@@ -128,7 +132,7 @@ export default function DarkVeil({
     const resize = () => {
       const w = parent.clientWidth,
         h = parent.clientHeight;
-      renderer.setSize(w * resolutionScale, h * resolutionScale);
+      renderer.setSize(w * effectiveResolutionScale, h * effectiveResolutionScale);
       program.uniforms.uResolution.value.set(w, h);
     };
 

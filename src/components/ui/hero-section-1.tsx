@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import Threads from "../Backgrounds/Threads/Threads";
 
+// Use tiny transparent placeholder in dev to avoid loading large textures during development
+const DEV_PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
 type VariantsPair = {
   container?: Variants;
   item?: Variants;
@@ -131,11 +134,12 @@ export default function HeroSection() {
               className="absolute inset-0 -z-20"
             >
               <img
-                src="https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"
+                src={import.meta.env.DEV ? DEV_PLACEHOLDER : "https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"}
                 alt="background"
                 className="absolute inset-x-0 top-56 -z-20 hidden lg:top-32 dark:block"
                 width={3276}
                 height={4095}
+                loading="lazy"
               />
             </AnimatedGroup>
 
@@ -165,7 +169,7 @@ export default function HeroSection() {
                   </a>
 
                   <h1 className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
-                    We Build Custom Web , Mobile Solutions
+                    We Build Custom Web  Mobile Solutions
                   </h1>
                   <p className="mx-auto mt-8 max-w-2xl text-balance text-lg">
                     Highly converting solutions for building modern websites, mobile apps,
@@ -225,17 +229,19 @@ export default function HeroSection() {
                 <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                   <img
                     className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                    src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"
+                    src={import.meta.env.DEV ? DEV_PLACEHOLDER : "https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"}
                     alt="app screen"
                     width={2700}
                     height={1440}
+                    loading="lazy"
                   />
                   <img
                     className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                    src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
-                    alt="app screen"
+                    src={import.meta.env.DEV ? DEV_PLACEHOLDER : "https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"}
+                    alt="app screen light"
                     width={2700}
                     height={1440}
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -451,10 +457,10 @@ function Logo({ className }: { className?: string }) {
           y1="0"
           x2="10"
           y2="20"
-          gradientUnits="userSpaceOnUse"
+          gradientUnits="userSpace"
         >
-          <stop stopColor="#9B99FE" />
-          <stop offset="1" stopColor="#2BC8B7" />
+          <stop offset="0%" stop-color="hsl(var(--tw-hue) 100%)" />
+          <stop offset="100%" stop-color="hsl(var(--tw-hue) 100% / 0%)" />
         </linearGradient>
       </defs>
     </svg>

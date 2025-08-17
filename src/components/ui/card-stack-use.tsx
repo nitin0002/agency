@@ -88,19 +88,19 @@ const Process = () => {
     <div className="container min-w-full min-h-svh place-content-center px-6 text-stone-900 xl:px-12">
       <div className="grid md:grid-cols-2 md:gap-8 xl:gap-12">
         <div className="left-0 top-0 md:sticky md:h-svh md:py-12">
-          <h5 className=" text-xs uppercase tracking-wide">our process</h5>
-          <h2 className="mb-6 mt-4 text-4xl font-bold tracking-tight">
+          <h5 className=" text-lg uppercase tracking-wide">our process</h5>
+          <h2 className="mb-6 mt-4 text-5xl font-bold tracking-tight">
             Planning your{" "}
             <span className="text-indigo-500">project development</span> journey
           </h2>
-          <p className="max-w-prose text-sm">
+          <p className="max-w-prose text-lg">
             Our journey begins with a deep dive into your vision. In the
             Discovery phase, we engage in meaningful conversations to grasp your
             brand identity, goals, and the essence you want to convey. This
             phase sets the stage for all that follows.
           </p>
         </div>
-        <ContainerScroll className="min-h-[400vh] space-y-8 py-12">
+        <ContainerScroll className="min-h-[80vh] space-y-8 py-12">
           {PROCESS_PHASES.map((phase, index) => (
             <CardSticky
               key={phase.id}
